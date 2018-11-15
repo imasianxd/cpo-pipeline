@@ -60,7 +60,7 @@ cat "$R1" > "$qcOutDir"/R1.fastq
 source activate mash-2.0
 
 #get estimation of genome size (k-mer method)
-mash sketch -m 3 "$qcOutDir"/R1.fastq -o "$qcOutDir"/R1.fastq -p "$threads" -k 32 2> "$qcOutDir"/mash.log
+#mash sketch -m 3 "$qcOutDir"/R1.fastq -o "$qcOutDir"/R1.fastq -p "$threads" -k 32 2> "$qcOutDir"/mash.log
 
 #identify species using genome database
 echo "comparing to reference genome db"
@@ -85,16 +85,16 @@ rm -rf "$qcOutDir"/*.zip
 source deactivate
 
 #kraken2 species classification
-echo "kraken2 classfiication of reads"
+#echo "kraken2 classfiication of reads"
 
-source activate kraken2-2.0.7_beta
+#source activate kraken2-2.0.7_beta
 
-kraken2 --db "$k2db" --paired --threads "$threads" --report "$qcOutDir"/kraken2.genome.report --output "$qcOutDir"/kraken2.genome.classification "$R1" "$R2"
+#kraken2 --db "$k2db" --paired --threads "$threads" --report "$qcOutDir"/kraken2.genome.report --output "$qcOutDir"/kraken2.genome.classification "$R1" "$R2"
 
-source deactivate
+#source deactivate
 
 #calculate the total number of basepairs in the read
-echo "calculating read stats"
+echo "calculating total bases of forward and reverse"
 
 source activate seqtk-1.3
 
