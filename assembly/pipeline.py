@@ -294,11 +294,6 @@ def main():
 		if (value == "WARN" or value == "FAIL"):
 			notes.append("FastQC: Reverse read, " + key + " " + value)
 
-	output.append("\nKraken2 predicted species (>1%): ")
-	for kraken_genome in kraken_genomes:
-		# TODO filter by species and percentage
-		output.append(kraken_genome['taxon_name'])
-
 	output.append("\nmash predicted genomes")
 	for mash_hit in filtered_mash_hits:
 		output.append(mash_hit['query_comment'])
@@ -307,16 +302,6 @@ def main():
 	for mash_plasmid_hit in mash_plasmid_hits:
 		output.append(mash_plasmid_hit['query_comment'])
 	
-	output.append("\nDetailed kraken genome hits: ")
-	for kraken_genome in kraken_genomes:
-		output.append(
-			str(kraken_genome['fragment_percent']) + '\t' +
-			str(kraken_genome['fragment_count_root']) + '\t' +
-			str(kraken_genome['fragment_count_taxon']) + '\t' +
-			kraken_genome['rank_code'] + '\t' +
-			kraken_genome['ncbi_taxon_id'] + '\t' +
-			kraken_genome['taxon_name']
-		)
 
 	output.append("\nDetailed mash genome hits: ")
 	for mash_hit in mash_hits:
