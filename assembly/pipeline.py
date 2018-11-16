@@ -258,7 +258,7 @@ def main():
     print("total bases: " + str(total_bp))
     print("expected genome size: " + str(expectedGenomeSize))
     print("coverage: " + str(coverage))
-	print("")
+    print("")
     print("contamination: " + str(qcVerdicts["Multiple_Species_Contamination"]))
     print("same as the expected species: " + str(qcVerdicts["Same_As_Expected_Species"]))
     print("contains plasmids: " + str(qcVerdicts["FASTQ_Contains_Plasmids"]))
