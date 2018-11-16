@@ -231,7 +231,7 @@ def main():
     if (len(reference_genomes) > 1 ):
         raise Exception ("there are multiple reference genomes")
     elif (len(reference_genomes) == 0):
-        raise Exception ("no reference genoe identified")
+        raise Exception ("no reference genome identified")
         
     
     #now we estimate our coverage using total reads and expected genome size
