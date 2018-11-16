@@ -124,14 +124,6 @@ def main():
     result = execute(cmd, curDir)
 
     print("Parsing the QC results")
-    
-    #parse read stats
-    '''
-    pathToMashLog = outputDir + "/qcResult/" + ID + "/" + "mash.log"
-    pathToTotalBP = outputDir + "/qcResult/" + ID + "/" + "totalbp"
-    stats = result_parsers.parse_read_stats(pathToMashLog, pathToTotalBP)
-    '''
-    
     #parse genome mash results
     pathToMashGenomeScreenTSV = outputDir + "/qcResult/" + ID + "/" + "mashscreen.genome.tsv"
     mash_hits = result_parsers.parse_mash_result(pathToMashGenomeScreenTSV)
@@ -263,16 +255,16 @@ def main():
     if (coverage >= 30):
         qcVerdicts["Acceptable Coverage"] = True
     
-    print(str(total_bp))
-    print(str(expectedGenomeSize))
-    print(str(coverage))
-    print(str(qcVerdicts["Multiple_Species_Contamination"]))
-    print(str(qcVerdicts["Same_As_Expected_Species"]))
-    print(str(qcVerdicts["FASTQ_Contains_Plasmids"]))
-    print(str(qcVerdicts["Acceptable Coverage"]))
-    print(str(qcVerdicts["Acceptable_FastQC_Forward"]))
-    print(str(qcVerdicts["Acceptable_FastQC_Reverse"]))
-
+    print("total bases: " + str(total_bp))
+    print("expected genome size: " + str(expectedGenomeSize))
+    print("coverage: " + str(coverage))
+	print("")
+    print("contamination: " + str(qcVerdicts["Multiple_Species_Contamination"]))
+    print("same as the expected species: " + str(qcVerdicts["Same_As_Expected_Species"]))
+    print("contains plasmids: " + str(qcVerdicts["FASTQ_Contains_Plasmids"]))
+    print("acceptable coverage: " + str(qcVerdicts["Acceptable Coverage"]))
+    print("acceptable forward reads quality: " + str(qcVerdicts["Acceptable_FastQC_Forward"]))
+    print("acceptable reverse reads quality: " + str(qcVerdicts["Acceptable_FastQC_Reverse"]))
     
     print("Formatting the QC results")
 
