@@ -298,8 +298,10 @@ def main():
     2. percent gc versus reference percent gc +- 5%
     3. genome fraction percent > 90
     '''
-    for keys in quastResults:
-        print(keys)
+    print("QUAST")
+    
+    for keys,values in quastResults:
+        print(keys + ": " +values)
     
     if (float(quastResults["total_length"]) <= float(quastResults["reference_length"]) * (1 + float(qc_cutoffs["quast_assembly_length_cutoff"])) and float(quastResults["total_length"]) >= float(quastResults["reference_length"]) * (1 - float(qc_cutoffs["quast_assembly_length_cutoff"]))): #check for condition 1
         qc_verdicts["Acceptable_QUAST_Assembly_Metrics"] = True
