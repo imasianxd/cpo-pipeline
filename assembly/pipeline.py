@@ -144,7 +144,7 @@ def main():
     print("running pipeline_qc.sh")
     #input parameters: 1 = id, 2= forward, 3 = reverse, 4 = output, 5=mashgenomerefdb, $6=mashplasmidrefdb, $7=kraken2db, $8=kraken2plasmiddb
     cmd = [scriptDir + "/pipeline_qc.sh", ID, R1, R2, outputDir, mashdb, mashplasmiddb, kraken2db, kraken2plasmiddb]
-    #result = execute(cmd, curDir)
+    result = execute(cmd, curDir)
 
     print("Parsing the QC results")
     #parse genome mash results
@@ -273,7 +273,7 @@ def main():
     #run the assembly shell script.
     #input parameters: 1 = id, 2= forward, 3 = reverse, 4 = output, 5=tmpdir for shovill, 6=reference genome, 7=buscoDB
     cmd = [scriptDir + "/pipeline_assembly.sh", ID, R1, R2, outputDir, tempDir, reference_genomes[0], buscodb]
-    #result = execute(cmd, curDir)
+    result = execute(cmd, curDir)
     
     print("Parsing assembly results")
     #get the correct busco and quast result file to parse
