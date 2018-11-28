@@ -65,15 +65,15 @@ assembly_output_dir="${assembly_dir}/${sample_id}"
 source activate shovill-1.0.1
 
 #shovill \
-    --mincov 3 \
-    --minlen 500 \
-    --force \
-    --R1 "${reads1_file}" \
-    --R2 "${reads2_file}" \
-    --cpus "${threads}" \
-    --ram "${ram}" \
-    --tmpdir "${temp_dir}" \
-    --outdir "${assembly_output_dir}"
+#    --mincov 3 \
+#    --minlen 500 \
+#    --force \
+#    --R1 "${reads1_file}" \
+#    --R2 "${reads2_file}" \
+#    --cpus "${threads}" \
+#    --ram "${ram}" \
+#    --tmpdir "${temp_dir}" \
+#    --outdir "${assembly_output_dir}"
 
 source deactivate
 
@@ -91,10 +91,10 @@ source activate quast-4.6.3
 #run quast on assembled genome
 mkdir -p "${qc_dir}"/"${sample_id}"
 #quast \
-    "${contigs_dir}/${sample_id}.fa" \
-    -R "${reference_genome}" \
-    -o "${qc_dir}/${sample_id}/${sample_id}.quast" \
-    --threads "${threads}"
+#    "${contigs_dir}/${sample_id}.fa" \
+#    -R "${reference_genome}" \
+#    -o "${qc_dir}/${sample_id}/${sample_id}.quast" \
+#    --threads "${threads}"
 
 source deactivate
 
