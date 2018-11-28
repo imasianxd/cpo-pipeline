@@ -281,7 +281,7 @@ def main():
     quastPath = (outputDir + "/assembly_qc/" + ID + "/" + ID + ".quast" + "/report.tsv")
     #populate the busco and quast result object
     buscoResults = result_parsers.parse_busco_result(buscoPath)
-    quastResults = result_parsers.parse_busco_result(quastPath)
+    quastResults = result_parsers.parse_quast_result(quastPath)
     
     #assembly QC logic    
     '''
