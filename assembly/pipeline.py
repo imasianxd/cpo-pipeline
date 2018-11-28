@@ -300,9 +300,6 @@ def main():
     '''
     print("QUAST")
     
-    for keys,values in quastResults:
-        print(keys + ": " +values)
-    
     if (float(quastResults["total_length"]) <= float(quastResults["reference_length"]) * (1 + float(qc_cutoffs["quast_assembly_length_cutoff"])) and float(quastResults["total_length"]) >= float(quastResults["reference_length"]) * (1 - float(qc_cutoffs["quast_assembly_length_cutoff"]))): #check for condition 1
         qc_verdicts["Acceptable_QUAST_Assembly_Metrics"] = True
     if (float(quastResults["percent_GC"]) <= float(quastResults["reference_percent_GC"]) * (1+ float(qc_cutoffs["quast_percent_gc_cutoff"])) and float(quastResults["percent_GC"]) >= float(quastResults["reference_percent_GC"]) * (1 - float(qc_cutoffs["quast_percent_gc_cutoff"]))): #check for condition 2
@@ -310,14 +307,17 @@ def main():
     if (float(quastResults["genome_fraction_percent"]) >= int(qc_cutoffs["genome_fraction_percent_cutoff"])):
         qc_verdicts["Acceptable_QUAST_Assembly_Metrics"] = True
 
-        
+    for key,value in buscoResults.items():
+        print(str(key)) + ": " + str(value))
+    for key,value in quastResults.items():
+        print(str(key)) + ": " + str(value))
         
     #print QC results to screen
     print("total bases: " + str(total_bp))
     print("expected genome size: " + str(expected_genome_size))
     print("coverage: " + str(coverage))
     print("")
-    for key,value in qc_verdicts:
+    for key,value in qc_verdicts.items():
         print (str(key) + ": " + str(value))
         
     '''
