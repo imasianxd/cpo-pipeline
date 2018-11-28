@@ -273,7 +273,7 @@ def main():
     #run the assembly shell script.
     #input parameters: 1 = id, 2= forward, 3 = reverse, 4 = output, 5=tmpdir for shovill, 6=reference genome, 7=buscoDB
     cmd = [scriptDir + "/pipeline_assembly.sh", ID, R1, R2, outputDir, tempDir, reference_genomes[0], buscodb]
-    result = execute(cmd, curDir)
+    #result = execute(cmd, curDir)
     
     print("Parsing assembly results")
     #get the correct busco and quast result file to parse
@@ -298,6 +298,9 @@ def main():
     2. percent gc versus reference percent gc +- 5%
     3. genome fraction percent > 90
     '''
+    for keys in quastResults:
+        print(keys)
+    
     if (float(quastResults["total_length"]) <= float(quastResults["reference_length"]) * (1 + float(qc_cutoffs["quast_assembly_length_cutoff"])) and float(quastResults["total_length"]) >= float(quastResults["reference_length"]) * (1 - float(qc_cutoffs["quast_assembly_length_cutoff"]))): #check for condition 1
         qc_verdicts["Acceptable_QUAST_Assembly_Metrics"] = True
     if (float(quastResults["percent_GC"]) <= float(quastResults["reference_percent_GC"]) * (1+ float(qc_cutoffs["quast_percent_gc_cutoff"])) and float(quastResults["percent_GC"]) >= float(quastResults["reference_percent_GC"]) * (1 - float(qc_cutoffs["quast_percent_gc_cutoff"]))): #check for condition 2
