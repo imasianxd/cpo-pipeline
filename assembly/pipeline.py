@@ -126,14 +126,14 @@ def main():
     }
     
     qc_cutoffs = {
-        "mash_hits_genome_score_cutoff" = 300 #genome mash will include all hits with scores (top hit score - $thisvalue)
-        "mash_hits_plasmid_score_cutoff" = 100 #plasmid mash will include all hits with scores (top hit score - $thisvalue)
-        "coverage_cutoff" = 30 #sequencing coverage greater than ($thisvalue) will pass the QC
-        "quast_assembly_length_cutoff" = 0.10 #QUAST QC: assembly length within +-($thisvalue) percent in reference to reference length will pass the QC 
-        "quast_percent_gc_cutoff" = 0.05 #QUAST QC: percent GC within +-($thisvalue) percent in reference to reference percent GC will pass the QC 
-        "genome_fraction_percent_cutoff" = 0.90 #QUAST QC: genome_fraction_percent less than ($thisvalue) will pass the QC
-        "busco_complete_single_cutoff" = 0.90 #BUSCO QC: complete single genes greater than ($thisvalue) percent will pass the QC
-        "busco_complete_duplicate_cutoff" = 0.10 #BUSCO QC: complete duplicate genes less than ($thisvalue) percent will pass the QC
+        "mash_hits_genome_score_cutoff":300 #genome mash will include all hits with scores (top hit score - $thisvalue)
+        "mash_hits_plasmid_score_cutoff":100 #plasmid mash will include all hits with scores (top hit score - $thisvalue)
+        "coverage_cutoff":30 #sequencing coverage greater than ($thisvalue) will pass the QC
+        "quast_assembly_length_cutoff":0.10 #QUAST QC: assembly length within +-($thisvalue) percent in reference to reference length will pass the QC 
+        "quast_percent_gc_cutoff":0.05 #QUAST QC: percent GC within +-($thisvalue) percent in reference to reference percent GC will pass the QC 
+        "genome_fraction_percent_cutoff":0.90 #QUAST QC: genome_fraction_percent less than ($thisvalue) will pass the QC
+        "busco_complete_single_cutoff":0.90 #BUSCO QC: complete single genes greater than ($thisvalue) percent will pass the QC
+        "busco_complete_duplicate_cutoff":0.10 #BUSCO QC: complete duplicate genes less than ($thisvalue) percent will pass the QC
     }
     
     print(str(datetime.datetime.now()) + "\n\nID: " + ID + "\nR1: " + R1 + "\nR2: " + R2)
