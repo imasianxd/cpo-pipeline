@@ -278,7 +278,7 @@ def main():
     print("Parsing assembly results")
     #get the correct busco and quast result file to parse
     buscoPath = (outputDir + "/assembly_qc/" + ID + "/" + ID + ".busco" + "/short_summary_" + ID + ".busco.txt")
-    quastPath = (outputDir + "/assembly_qc/" + ID + "/" + ID + ".quast" + "/report.tsv")
+    quastPath = (outputDir + "/assembly_qc/" + ID + "/" + ID + ".quast" + "/report.txt")
     #populate the busco and quast result object
     buscoResults = result_parsers.parse_busco_result(buscoPath)
     quastResults = result_parsers.parse_quast_result(quastPath)
