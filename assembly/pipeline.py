@@ -308,9 +308,9 @@ def main():
         qc_verdicts["Acceptable_QUAST_Assembly_Metrics"] = True
 
     for key,value in buscoResults.items():
-        print(str(key)) + ": " + str(value))
+        print(str(key) + ": " + str(value))
     for key,value in quastResults.items():
-        print(str(key)) + ": " + str(value))
+        print(str(key) + ": " + str(value))
         
     #print QC results to screen
     print("total bases: " + str(total_bp))
