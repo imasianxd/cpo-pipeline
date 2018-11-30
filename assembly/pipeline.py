@@ -115,14 +115,14 @@ def main():
     
     #dictionary to store QC PASS/FAIL flags
     qc_verdicts = {
-        "Multiple_Species_Contamination":False,
-        "Same_As_Expected_Species":False,
-        "FASTQ_Contains_Plasmids":False,
-        "Acceptable Coverage":False,
-        "Acceptable_FastQC_Forward":False,
-        "Acceptable_FastQC_Reverse":False,
-        "Acceptable_QUAST_Assembly_Metrics":False,
-        "Acceptable_BUSCO_Assembly_Completion": False
+        "multiple_species_contamination":False,
+        "same_as_expected_species":False,
+        "fastq_contains_plasmids":False,
+        "acceptable_coverage":False,
+        "acceptable_fastqc_forward":False,
+        "acceptable_fastqc_reverse":False,
+        "acceptable_quast_assembly_metrics":False,
+        "acceptable_busco_assembly_metrics": False
     }
     
     qc_cutoffs = {
@@ -131,7 +131,7 @@ def main():
         "coverage_cutoff":30, #sequencing coverage greater than ($thisvalue) will pass the QC
         "quast_assembly_length_cutoff":0.10, #QUAST QC: assembly length within +-($thisvalue) percent in reference to reference length will pass the QC 
         "quast_percent_gc_cutoff":0.05, #QUAST QC: percent GC within +-($thisvalue) percent in reference to reference percent GC will pass the QC 
-        "genome_fraction_percent_cutoff":0.90, #QUAST QC: genome_fraction_percent less than ($thisvalue) will pass the QC
+        "genome_fraction_percent_cutoff":0.90, #QUAST QC: genome_fraction_percent greater than ($thisvalue) will pass the QC
         "busco_complete_single_cutoff":0.90, #BUSCO QC: complete single genes greater than ($thisvalue) percent will pass the QC
         "busco_complete_duplicate_cutoff":0.10 #BUSCO QC: complete duplicate genes less than ($thisvalue) percent will pass the QC
     }
@@ -188,26 +188,26 @@ def main():
     #all the qC result are parsed now, lets do some QC logic
     #look at mash results first
     if (len(filtered_mash_hits) > 1):
-        qc_verdicts["Multiple_Species_Contamination"] = True 
+        qc_verdicts["multiple_species_contamination"] = True 
     
     for mash_hit in filtered_mash_hits:
         species = mash_hit['query_comment']
         if (species.find(expectedSpecies) > -1):
-            qc_verdicts["Same_As_Expected_Species"] = True
+            qc_verdicts["same_as_expected_species"] = True
     
     if (len(filtered_mash_plasmid_hits) > 0):
-        qc_verdicts["FASTQ_Contains_Plasmids"] = True
+        qc_verdicts["fastq_contains_plasmids"] = True
 
     #look at fastqc results
     if (fastqc["R1"]["basic_statistics"] == "PASS" and fastqc["R1"]["per_base_sequence_quality"] == "PASS" and fastqc["R1"]["sequence_length_distribution"] == "PASS" ):
-        qc_verdicts["Acceptable_FastQC_Forward"] = True 
+        qc_verdicts["acceptable_fastqc_forward"] = True 
     if (fastqc["R2"]["basic_statistics"] == "PASS" and fastqc["R2"]["per_base_sequence_quality"] == "PASS" and fastqc["R2"]["sequence_length_distribution"] == "PASS" ):
-        qc_verdicts["Acceptable_FastQC_Reverse"] = True 
+        qc_verdicts["acceptable_fastqc_reverse"] = True 
     
     #download a reference genome
     print("Downloading reference genomes")
     reference_genomes = []
-    if (not qc_verdicts["Multiple_Species_Contamination"]):
+    if (not qc_verdicts["multiple_species_contamination"]):
         for mash_hit in filtered_mash_hits: #for all the mash hits, aka reference genomes
             qID = mash_hit['query_id'] #hit genome within mash results
             species_name_start = int(mash_hit['query_comment'].index(".")) + 3 #find the start of species name within query_comment column
@@ -265,7 +265,7 @@ def main():
     coverage = total_bp / expected_genome_size
             
     if (coverage >= int(qc_cutoffs["coverage_cutoff"])):
-        qc_verdicts["Acceptable Coverage"] = True
+        qc_verdicts["acceptable_coverage"] = True
 
     #time to assemble the reads then QC the assemblies
     print("step 2: genome assembly and QC")
@@ -290,7 +290,7 @@ def main():
     2. complte duplicates < 90% of total genes
     '''
     if (float(buscoResults["complete_single"]) / float(buscoResults["total"]) >= float(qc_cutoffs["busco_complete_single_cutoff"]) and float(buscoResults["complete_duplicate"]) / float(buscoResults["total"]) <= float(qc_cutoffs["busco_complete_duplicate_cutoff"])):
-        qc_verdicts["Acceptable_BUSCO_Assembly_Completion"] = True
+        qc_verdicts["acceptable_busco_assembly_metrics"] = True
 
     '''
     QUAST PASS CRITERIA:
@@ -299,7 +299,7 @@ def main():
     3. genome fraction percent > 90
     '''   
     if ((float(quastResults["total_length"]) <= float(quastResults["reference_length"]) * (1 + float(qc_cutoffs["quast_assembly_length_cutoff"])) and float(quastResults["total_length"]) >= float(quastResults["reference_length"]) * (1 - float(qc_cutoffs["quast_assembly_length_cutoff"]))) and (float(quastResults["percent_GC"]) <= float(quastResults["reference_percent_GC"]) * (1+ float(qc_cutoffs["quast_percent_gc_cutoff"])) and float(quastResults["percent_GC"]) >= float(quastResults["reference_percent_GC"]) * (1 - float(qc_cutoffs["quast_percent_gc_cutoff"]))) and (float(quastResults["genome_fraction_percent"]) >= int(qc_cutoffs["genome_fraction_percent_cutoff"]))): 
-        qc_verdicts["Acceptable_QUAST_Assembly_Metrics"] = True
+        qc_verdicts["acceptable_quast_assembly_metrics"] = True
 
     #print QC results to screen
     print("total bases: " + str(total_bp))
