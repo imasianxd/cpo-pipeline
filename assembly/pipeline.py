@@ -53,12 +53,12 @@ def httpGetFile(url, filepath=""):
         return True
 
 def gunzip(file_path):
-    with gzip.open(file_path + ".gz", 'rb') as f:
+    with gzip.open(file_path, 'rb') as f:
         gzContent = f.read()
-    with open(file_path, 'wb') as out:
+    with open(file_path.replace(".gz",""), 'wb') as out:
         out.write(gzContent)    
-    os.remove(file_path + ".gz")
-    if (os.path.exists(file_path)):
+    os.remove(file_path)
+    if (os.path.exists(file_path.replace(".gz",""))):
         return True
     else:
         raise Exception("Reference genome downloaded, but cannot be gunzipped")
@@ -248,7 +248,7 @@ def main():
                 httpGetFile(assembly_stat_url, file_paths["reference_genome_stat_path"]) # fetch the genome stat
                 
                 #unzip the files
-                check_file_exist_and_parse(str(file_paths["reference_genome_fasta_path"]),gunzip)
+                check_file_exist_and_parse(str(file_paths["reference_genome_fasta_path"] + ".gz"),gunzip)
 
     else: #throw an error if it contains contaminations
         print("Contaminated Genome assembly...resequencing required")
