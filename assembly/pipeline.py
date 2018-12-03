@@ -53,15 +53,15 @@ def httpGetFile(url, filepath=""):
         return True
 
 def gunzip(file_path):
-	with gzip.open(file_path + ".gz", 'rb') as f:
-		gzContent = f.read()
-	with open(file_path, 'wb') as out:
-		out.write(gzContent)	
-	os.remove(file_path + ".gz")
-	if (os.path.exists(file_path)):
-		return True
-	else:
-		raise Exception("Reference genome downloaded, but cannot be gunzipped")
+    with gzip.open(file_path + ".gz", 'rb') as f:
+        gzContent = f.read()
+    with open(file_path, 'wb') as out:
+        out.write(gzContent)    
+    os.remove(file_path + ".gz")
+    if (os.path.exists(file_path)):
+        return True
+    else:
+        raise Exception("Reference genome downloaded, but cannot be gunzipped")
 
 def check_file_exist_and_parse(path, parser):
     if os.path.exists(path):
@@ -141,18 +141,18 @@ def main():
         "busco_complete_duplicate_cutoff":0.10 #BUSCO QC: complete duplicate genes less than ($thisvalue) percent will pass the QC
     }
     
-	file_paths = {
+    file_paths = {
         "mash_genome_path": (outputDir + "/qcResult/" + ID + "/" + "mashscreen.genome.tsv"),
-		"mash_plasmid_path": (outputDir + "/qcResult/" + ID + "/" + "mashscreen.plasmid.tsv"),
-		"fastqc_forward_path":(outputDir + "/qcResult/" + ID + "/" + R1[R1.find(os.path.basename(R1)):R1.find(".")] + "_fastqc/summary.txt"),
-		"fastqc_reverse_path": (outputDir + "/qcResult/" + ID + "/" + R2[R2.find(os.path.basename(R2)):R2.find(".")] + "_fastqc/summary.txt"),
-		"total_bp_path": (outputDir + "/qcResult/" + ID + "/" + "totalbp"),
-		"reference_genome_fasta_path": (""), #built later
-		"reference_genome_stat_path": (""), #built later
-		"busco_path": (outputDir + "/assembly_qc/" + ID + "/" + ID + ".busco" + "/short_summary_" + ID + ".busco.txt"),
-		"quast_path": (outputDir + "/assembly_qc/" + ID + "/" + ID + ".quast" + "/report.txt")
+        "mash_plasmid_path": (outputDir + "/qcResult/" + ID + "/" + "mashscreen.plasmid.tsv"),
+        "fastqc_forward_path":(outputDir + "/qcResult/" + ID + "/" + R1[R1.find(os.path.basename(R1)):R1.find(".")] + "_fastqc/summary.txt"),
+        "fastqc_reverse_path": (outputDir + "/qcResult/" + ID + "/" + R2[R2.find(os.path.basename(R2)):R2.find(".")] + "_fastqc/summary.txt"),
+        "total_bp_path": (outputDir + "/qcResult/" + ID + "/" + "totalbp"),
+        "reference_genome_fasta_path": (""), #built later
+        "reference_genome_stat_path": (""), #built later
+        "busco_path": (outputDir + "/assembly_qc/" + ID + "/" + ID + ".busco" + "/short_summary_" + ID + ".busco.txt"),
+        "quast_path": (outputDir + "/assembly_qc/" + ID + "/" + ID + ".quast" + "/report.txt")
     }
-	
+    
     print(str(datetime.datetime.now()) + "\n\nID: " + ID + "\nR1: " + R1 + "\nR2: " + R2)
     output.append(str(datetime.datetime.now()) + "\n\nID: " + ID + "\nR1: " + R1 + "\nR2: " + R2)
 
@@ -237,18 +237,18 @@ def main():
                 fasta_url = "ftp://ftp.ncbi.nlm.nih.gov/genomes/all/" + gcf[0] + "/" + gcf[1] + "/" + gcf[2] + "/" + gcf[3] + "/" + assembly + "/" + qID #url to fasta
                 assembly_stat_url = "ftp://ftp.ncbi.nlm.nih.gov/genomes/all/" + gcf[0] + "/" + gcf[1] + "/" + gcf[2] + "/" + gcf[3] + "/" + assembly + "/" + assembly + "_assembly_stats.txt" #url to assembly stat
                 
-				#build the save paths
-				referencePath = os.path.abspath(outputDir + "/qcResult/" + ID + "/" + species.replace(" ",""))
+                #build the save paths
+                referencePath = os.path.abspath(outputDir + "/qcResult/" + ID + "/" + species.replace(" ",""))
                 file_paths["reference_genome_fasta_path"] = (referencePath + ".fasta")
-				file_paths["reference_genome_stat_path"] =  (referencePath + "_genomeStats.txt")
-				reference_genomes.append(str(file_paths["reference_genome_fasta_path"]))
+                file_paths["reference_genome_stat_path"] =  (referencePath + "_genomeStats.txt")
+                reference_genomes.append(str(file_paths["reference_genome_fasta_path"]))
 
-				#fetch the files
+                #fetch the files
                 httpGetFile(fasta_url, file_paths["reference_genome_fasta_path"] + ".gz") #fetch the fasta gz
                 httpGetFile(assembly_stat_url, file_paths["reference_genome_stat_path"]) # fetch the genome stat
-				
-				#unzip the files
-				check_file_exist_and_parse(str(file_paths["reference_genome_fasta_path"]),gunzip)
+                
+                #unzip the files
+                check_file_exist_and_parse(str(file_paths["reference_genome_fasta_path"]),gunzip)
 
     else: #throw an error if it contains contaminations
         print("Contaminated Genome assembly...resequencing required")
@@ -261,8 +261,8 @@ def main():
         raise Exception ("no reference genome identified")
     
     #now we estimate our coverage using total reads and expected genome size
-	expected_genome_size = check_file_exist_and_parse(str(file_paths["reference_genome_stat_path"]), result_parsers.parse_reference_genome_stats)     #find expected genome size
-	total_bp = check_file_exist_and_parse(str(file_paths["total_bp_path"]), result_parsers.parse_total_bp)    #find total base count
+    expected_genome_size = check_file_exist_and_parse(str(file_paths["reference_genome_stat_path"]), result_parsers.parse_reference_genome_stats)     #find expected genome size
+    total_bp = check_file_exist_and_parse(str(file_paths["total_bp_path"]), result_parsers.parse_total_bp)    #find total base count
     
     #calculate coverage
     coverage = total_bp / expected_genome_size

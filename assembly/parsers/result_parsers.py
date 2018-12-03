@@ -170,23 +170,23 @@ def parse_total_bp(path_to_total_bp):
         total_bp = float(totalbp_file.readline())
 
     return total_bp
-	
-def parse_reference_genome_status(path_to_reference_genome_stats):
+    
+def parse_reference_genome_stats(path_to_reference_genome_stats):
     """
     Args:
         path_to_reference_genome_stats (str): Path to
 
     Returns:
-        float: total basepairs
+        float: genome size
         For example:
           5185840
     """
-	with open(path_to_reference_genome_stats, 'r') as reference_stats:
+    with open(path_to_reference_genome_stats, 'r') as reference_stats:
         genome_stats = reference_stats.read().splitlines()
     for line in genome_stats:
         if (line.find("all	all	all	all	total-length") > -1): #find the total length stat
             expected_genome_size = float(line.split("\t")[5].strip()) 
-	return expected_genome_size
+    return expected_genome_size
 
 def parse_busco_result(path_to_busco_result):
     """
